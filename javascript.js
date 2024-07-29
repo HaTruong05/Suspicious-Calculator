@@ -23,6 +23,8 @@ function divide(a, b){
 }
 
 function operate(a, b, op){
+    a = parseFloat(a);
+    b = parseFloat(b);
     if (op === '+'){
         return add(a, b);
     } else if (op === '-'){
@@ -44,7 +46,7 @@ function getVal(event){
     console.log(button);
     if (button === EQ) {/*2 numbers and operator exist, calculate output*/
         if (SEC != null){
-            res = operate(parseFloat(FIRST), parseFloat(SEC), OPERATOR);
+            res = operate(FIRST, SEC, OPERATOR);
             document.querySelector(".screen").innerText = res;
             FIRST = res;
             SEC = null;

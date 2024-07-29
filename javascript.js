@@ -5,7 +5,6 @@ TMP = null;
 OPERATORS = new Set(['+', '-', '*', '/']);
 EQ = '=';
 CLR = 'AC';
-EVAL_NEW = false; 
 
 function add(a, b){
     return a + b;
@@ -42,10 +41,11 @@ function addDetect(){
 
 function getVal(event){
     button = event.target.innerText;
-    if (button === '=') {/*2 numbers and operator exist, calculate output*/
+    console.log(button);
+    if (button === EQ) {/*2 numbers and operator exist, calculate output*/
         if (SEC != null){
-            res = operate(parseFloat(FIRST), parseFloat(SECOND), OPERATOR);
-            document.querySelector(".screen").innerText = operate(parseFloat(FIRST), parseFloat(SECOND), OPERATOR);
+            res = operate(parseFloat(FIRST), parseFloat(SEC), OPERATOR);
+            document.querySelector(".screen").innerText = res;
             FIRST = res;
             SEC = null;
             OPERATOR = null;
@@ -55,9 +55,14 @@ function getVal(event){
         OPERATOR = null;
         SEC = null;
         TMP = null;
-        document.querySelector(".screen").innerText = '';
+        document.querySelector(".screen").innerText = 0;
     } else if (OPERATORS.has(button)) {
-        operator = button;
+        if (FIRST != null && SEC != null){
+            FIRST = operate(FIRST, SEC, OPERATOR)
+            SEC = null
+            document.querySelector(".screen").innerText = FIRST;
+        }
+        OPERATOR = button;
     } else { /*pressing one of the numbers*/
         if (FIRST === null) {
             FIRST = button;
@@ -65,12 +70,9 @@ function getVal(event){
         } else if (OPERATOR === null) {
             FIRST += button;
             document.querySelector(".screen").innerText += button;
-        }else if (SEC != null) {
-            res = operate(parseFloat(FIRST), parseFloat(SECOND), OPERATOR);
-            document.querySelector(".screen").innerText = operate(parseFloat(FIRST), parseFloat(SECOND), OPERATOR);
-            FIRST = res;
-            SEC = null;
-            OPERATOR = null;
+        } else if (SEC === null) {
+            SEC = button;
+            document.querySelector(".screen").innerText = SEC;
         } else {
             SEC += button;
             document.querySelector(".screen").innerText = SEC;
